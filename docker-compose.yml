@@ -6,29 +6,29 @@ services:
     container_name: paybank-db
     image: postgres:13
     environment:
-      - POSTGRES_USER=dba                 # Usuário do banco de dados
-      - POSTGRES_PASSWORD=dba             # Senha do banco de dados
-      - POSTGRES_DB=UserDB                # Nome do banco de dados a ser criado
-      - POSTGRES_ROOT_PASSWORD=dba        # Senha do superusuário
-      - TZ=America/Sao_Paulo              # Fuso horário
+      - POSTGRES_USER=dba # Usuário do banco de dados
+      - POSTGRES_PASSWORD=dba # Senha do banco de dados
+      - POSTGRES_DB=UserDB # Nome do banco de dados a ser criado
+      - POSTGRES_ROOT_PASSWORD=dba # Senha do superusuário
+      - TZ=America/Sao_Paulo # Fuso horário
     ports:
-      - "5432:5432"                       # Mapeamento da porta do banco de dados
-    restart: always                       # Reinicia o serviço automaticamente se falhar
+      - '5432:5432' # Mapeamento da porta do banco de dados
+    restart: always # Reinicia o serviço automaticamente se falhar
     networks:
-      - skynet                             # Conecta à rede 'skynet'
+      - skynet # Conecta à rede 'skynet'
 
   # Serviço do PgAdmin para gerenciamento do PostgreSQL
   pgadmin:
     container_name: paybank-dbadm
     image: dpage/pgadmin4
     environment:
-      - PGADMIN_DEFAULT_EMAIL=dba@pgadmin.com    # E-mail padrão para login
-      - PGADMIN_DEFAULT_PASSWORD=dba             # Senha padrão para login
-      - TZ=America/Sao_Paulo                     # Fuso horário
+      - PGADMIN_DEFAULT_EMAIL=dba@pgadmin.com # E-mail padrão para login
+      - PGADMIN_DEFAULT_PASSWORD=dba # Senha padrão para login
+      - TZ=America/Sao_Paulo # Fuso horário
     ports:
-      - "15432:80"                              # Mapeamento da porta do PgAdmin
+      - '15432:80' # Mapeamento da porta do PgAdmin
     depends_on:
-      - db                                       # Depende do serviço 'db' (PostgreSQL)
+      - db # Depende do serviço 'db' (PostgreSQL)
     restart: always
     networks:
       - skynet
@@ -38,9 +38,9 @@ services:
     container_name: paybank-redis
     image: redis:6.2
     environment:
-      - TZ=America/Sao_Paulo  # Fuso horário
+      - TZ=America/Sao_Paulo # Fuso horário
     ports:
-      - "6379:6379"           # Mapeamento da porta do Redis
+      - '6379:6379' # Mapeamento da porta do Redis
     restart: always
     networks:
       - skynet
@@ -50,11 +50,11 @@ services:
     container_name: paybank-redisadm
     image: redislabs/redisinsight:latest
     environment:
-      - TZ=America/Sao_Paulo  # Fuso horário
+      - TZ=America/Sao_Paulo # Fuso horário
     ports:
-      - "5540:5540"           # Mapeamento da porta do RedisInsight
+      - '5540:5540' # Mapeamento da porta do RedisInsight
     depends_on:
-      - redis                 # Depende do serviço 'redis'
+      - redis # Depende do serviço 'redis'
     restart: always
     networks:
       - skynet
@@ -67,14 +67,14 @@ services:
     networks:
       - skynet
     depends_on:
-      - db                        # Depende do serviço 'db'
+      - db # Depende do serviço 'db'
     environment:
-      - DATABASE_URL=postgresql://dba:dba@paybank-db:5432/UserDB    # URL de conexão com o banco de dados
-      - REDIS_HOST=paybank-redis                             # Host do Redis
-      - REDIS_PORT=6379                                      # Porta do Redis
-      - TZ=America/Sao_Paulo                                 # Fuso horário
+      - DATABASE_URL=postgresql://dba:dba@paybank-db:5432/UserDB # URL de conexão com o banco de dados
+      - REDIS_HOST=paybank-redis # Host do Redis
+      - REDIS_PORT=6379 # Porta do Redis
+      - TZ=America/Sao_Paulo # Fuso horário
     ports:
-      - "3333:3333"                                           # Mapeamento da porta do serviço
+      - '3333:3333' # Mapeamento da porta do serviço
     restart: unless-stopped
 
   # Serviço da microservice de e-mail
@@ -85,14 +85,14 @@ services:
     networks:
       - skynet
     depends_on:
-      - paybank-ms-auth         # Depende do serviço 'paybank-ms-auth'
+      - paybank-ms-auth # Depende do serviço 'paybank-ms-auth'
     environment:
-      - REDIS_HOST=paybank-redis                             # Host do Redis
-      - REDIS_PORT=6379                                      # Porta do Redis
-      - MAILTRAP_ACCOUNT_ID=3365587                          # ID da conta do Mailtrap
-      - MAILTRAP_TOKEN=8aa3830ddaeaadd601afe16cae5da073      # Token do Mailtrap
-      - MAILTRAP_INBOX_ID=3365587                            # ID da caixa de entrada do Mailtrap
-      - TZ=America/Sao_Paulo                                 # Fuso horário
+      - REDIS_HOST=paybank-redis # Host do Redis
+      - REDIS_PORT=6379 # Porta do Redis
+      - MAILTRAP_ACCOUNT_ID=3453050 # ID da conta do Mailtrap
+      - MAILTRAP_TOKEN=d0787ee3f636aa917672737b829bd44d # Token do Mailtrap
+      - MAILTRAP_INBOX_ID=3453050 # ID da caixa de entrada do Mailtrap
+      - TZ=America/Sao_Paulo # Fuso horário
     restart: unless-stopped
 
   # Serviço do frontend (microfrontend de autenticação)
@@ -103,14 +103,14 @@ services:
     networks:
       - skynet
     depends_on:
-      - paybank-ms-auth         # Depende do serviço 'paybank-ms-auth'
+      - paybank-ms-auth # Depende do serviço 'paybank-ms-auth'
     environment:
-      - TZ=America/Sao_Paulo     # Fuso horário
+      - TZ=America/Sao_Paulo # Fuso horário
     ports:
-      - "3000:3000"              # Mapeamento da porta do frontend
+      - '3000:3000' # Mapeamento da porta do frontend
     restart: unless-stopped
 
 # Redes
 networks:
   skynet:
-    driver: bridge               # Configuração da rede bridge
+    driver: bridge # Configuração da rede bridge
