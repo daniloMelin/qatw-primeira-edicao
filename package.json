@@ -12,6 +12,7 @@
     "@types/node": "^22.13.1"
   },
   "dependencies": {
+    "bullmq": "^5.41.2",
     "pg-promise": "^11.10.2",
     "qatw-primeira-edicao": "file:"
   }
