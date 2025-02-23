@@ -5,8 +5,6 @@ import { obterCodigo2FA } from '../support/db';
 import { LoginPage } from '../pages/LoginPage';
 import { DashPage } from '../pages/DashPage';
 
-//import { cleanJobs, getJob } from '../support/redis';
-
 test('O usuário não deve logar se o código de autenticação for inválido.', async ({
   page,
 }) => {
@@ -35,8 +33,6 @@ test('Deve acessar a conta do usuário', async ({ page }) => {
     cpf: '00000014141',
     senha: '147258',
   };
-
-  //await cleanJobs();
 
   await loginPage.acessaPagina();
   await loginPage.informaCPF(usuario.cpf);
